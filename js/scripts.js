@@ -1,5 +1,5 @@
 const tbody = document.querySelector("tbody");
-const paniers = [];
+const paniers = {};
 function initialisation() {
 	for (const product of products) {
 		const template = document.querySelector("#ligneproduct");
@@ -7,17 +7,22 @@ function initialisation() {
 
 		const tRow = produit.querySelector("tr");
 		tRow.setAttribute("id", product.id);
+		tRow.dataset.id = product.id;
 
 		const name = produit.querySelector(".nom");
 		name.textContent = product.name;
 
 		const input = produit.querySelector("input");
-		input.setAttribute("id", product.id);
+		input.setAttribute("id", "quantity" + product.id);
 		input.setAttribute("name", product.name);
 		input.dataset.id = product.id;
+		input.value = 0;
 
 		const price = produit.querySelector(".price");
 		price.textContent = product.unitPrice;
+
+		const pricet = produit.querySelector(".pricet");
+		pricet.textContent;
 
 		tbody.appendChild(produit);
 	}
@@ -25,33 +30,36 @@ function initialisation() {
 
 initialisation();
 
+
+function paniersSave(){
+	const paniersJson = JSON.stringify(paniers);
+	sessionStorage.setItem("id", paniersJson);
+}
+function totalPanier() {
+	let total = 0;
+	const pricets = document.querySelectorAll(".pricet");
+	for(const pricet of pricets){
+		total += Number(pricet.textContent);
+	}
+}
+
 const inputs = document.querySelectorAll("input");
 for(const input of inputs) {
-	input.addEventListener("click", function() {
+	input.addEventListener("input", function() {
 
-		let produitExist = null;
-		for(const panier of paniers) {
-			if(input.id === panier.id) {
-				produitExist = panier;
-				break;
-			}
-		}
+		const productValue = Number(input.value);
+		const tr = input.closest("tr");
+		const productId = tr.dataset.id;
 
-		if(produitExist !==null){
-			produitExist.quantity = input.value;
-		}else{
-			paniers.push({id: input.id, quantity: input.value});
-		}
+		paniers[productId] = productValue;
+		paniersSave();
 
-		const idSession = JSON.stringify(paniers.map(function(element) {
-			return element.id;
-		}));
-		sessionStorage.setItem("id", idSession);
+		let priceUnit = Number(tr.querySelector(".price").textContent);
+		let unitTotal = productValue * priceUnit;
 
-		const qtySession = JSON.stringify(paniers.map(function(element) {
-			return element.quantity;
-		}));
-		sessionStorage.setItem("quantity", qtySession);
+		let pricet = tr.querySelector(".pricet");
+		pricet.textContent = unitTotal;
+		totalPanier();
 	});
 }
 

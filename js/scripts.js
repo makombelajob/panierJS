@@ -35,16 +35,10 @@ function paniersSave(){
 	const paniersJson = JSON.stringify(paniers);
 	sessionStorage.setItem("id", paniersJson);
 }
-function totalPanier() {
-	let total = 0;
-	const pricets = document.querySelectorAll(".pricet");
-	for(const pricet of pricets){
-		total += Number(pricet.textContent);
-	}
-}
+
 function prixTotal() {
 	let total = 0;
-	const totales = document.querySelectorAll("tbody tr :nth-child(4)");
+	const totales = document.querySelectorAll(".pricet");
 	for(const totale of totales) {
 		total += Number(totale.textContent);
 	}

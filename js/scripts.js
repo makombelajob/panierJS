@@ -42,6 +42,15 @@ function totalPanier() {
 		total += Number(pricet.textContent);
 	}
 }
+function prixTotal() {
+	let total = 0;
+	const totales = document.querySelectorAll("tbody tr :nth-child(4)");
+	for(const totale of totales) {
+		total += Number(totale.textContent);
+	}
+	const facture = document.querySelector("tfoot td.price");
+	facture.textContent = total;
+}
 
 const inputs = document.querySelectorAll("input");
 for(const input of inputs) {
@@ -59,7 +68,7 @@ for(const input of inputs) {
 
 		let pricet = tr.querySelector(".pricet");
 		pricet.textContent = unitTotal;
-		totalPanier();
+		prixTotal();
 	});
 }
 

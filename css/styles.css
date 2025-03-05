@@ -1,0 +1,47 @@
+:root{
+    --danger: red;
+    --border: 1px solid var(--bg-color);
+    --bg-color: lightgrey;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table{
+    width: 80%;
+    border-collapse: collapse;
+    margin: auto;
+    tr{
+        &:nth-child(even){
+            background-color: var(--bg-color);
+        }
+        th, td{
+            border: var(--border);
+        }
+        td{
+            padding-inline: 10px;
+            &:not(:first-child){
+                text-align: end;
+            }
+            input{
+                width: 60px;
+            }
+            &.price::after{
+                content: " €";
+            }
+            svg{
+                cursor: pointer;
+            }
+        }
+    }
+    tfoot{
+        th{
+            text-align: end;
+        }
+    }
+}
